@@ -18,6 +18,7 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
+import { UserResponse } from '../dtos/response-user.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -27,6 +28,7 @@ export class UserController {
 
   @Post()
   @ApiBody({ type: CreateUserDto })
+  @ApiOkResponse({ type: UserResponse})
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -34,7 +36,7 @@ export class UserController {
   @Get()
   @ApiOkResponse({
     description: 'Users list',
-    type: CreateUserDto,
+    type: UserResponse,
     isArray: true,
   })
   findAll() {
@@ -44,7 +46,7 @@ export class UserController {
   @Get(':id')
   @ApiOkResponse({
     description: 'User',
-    type: CreateUserDto,
+    type: UserResponse,
   })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);

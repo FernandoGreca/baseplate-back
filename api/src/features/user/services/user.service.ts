@@ -26,7 +26,11 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return await newUser.save();
+    await newUser.save()
+
+    const { password, ...newUserTransformed } = newUser.toObject();
+
+    return newUserTransformed;
   }
 
   async findAll() {

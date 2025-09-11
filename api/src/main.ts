@@ -14,15 +14,7 @@ async function bootstrap() {
         'This backend serves as a starting point for applications that require authentication and initial structure.',
     )
     .setVersion('1.0.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        in: 'header',
-      },
-    )
-
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -36,10 +28,10 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors();
   app.useGlobalFilters(new MongooseExceptionFilter());
 
   const port = process.env.PORT ?? 3000;
-
   await app.listen(port);
   console.log(`🚀 Swagger rodando em: http://localhost:${port}/api`);
 }
