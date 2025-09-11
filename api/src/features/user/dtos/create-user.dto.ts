@@ -26,6 +26,6 @@ export class CreateUserDto {
     },
   )
   @ApiProperty({ example: 'Teste@123' })
-    @IsNotEmpty({ message: 'password is required' })
+  @IsNotEmpty({ message: 'password is required' })
   password: string;
 }

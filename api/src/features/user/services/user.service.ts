@@ -37,8 +37,12 @@ export class UserService {
     return await this.userModel.findById(id);
   }
 
-  async findByEmail(email: string) {
-    return await this.userModel.findOne({ email });
+  async findByEmail(email: string, returnPassword?: boolean) {
+    if (returnPassword) {
+      return await this.userModel.findOne({ email }).select('+password');
+    } else {
+      return await this.userModel.findOne({ email });
+    }
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
