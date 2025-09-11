@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 
+export type UserDocument = User & Document;
 @Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   versionKey: false,

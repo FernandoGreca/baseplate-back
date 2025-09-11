@@ -1,24 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from '../services/user.service';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOkResponse,
-  ApiResponse,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
+import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserResponse } from '../dtos/response-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
+import { UserService } from '../services/user.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -28,7 +27,7 @@ export class UserController {
 
   @Post()
   @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: UserResponse})
+  @ApiOkResponse({ type: UserResponse })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -39,8 +38,23 @@ export class UserController {
     type: UserResponse,
     isArray: true,
   })
-  findAll() {
-    return this.userService.findAll();
+  @ApiQueryList()
+  async getAll(
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+    @Query('fields') fields?: string,
+    @Query('sort') sort?: string,
+    @Query('query') query?: string,
+    @Query('dont_count') dont_count?: boolean,
+  ) {
+    return this.userService.findAll({
+      limit: limit ? parseInt(limit, 10) : 10,
+      offset: offset ? parseInt(offset, 10) : 0,
+      fields,
+      sort,
+      query,
+      dont_count: dont_count === undefined ? false : dont_count,
+    });
   }
 
   @Get(':id')

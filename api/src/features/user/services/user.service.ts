@@ -6,16 +6,20 @@ import {
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../entities/user.entity';
-import { Model } from 'mongoose';
+import { User, UserDocument } from '../entities/user.entity';
+import { HydratedDocument, Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { ChangePasswordDto } from 'src/features/auth/dtos/change-password.dto';
+import { BaseService } from 'src/base/base.service';
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<HydratedDocument<User>> {
   constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {}
+    @InjectModel(User.name)
+    private readonly userModel: Model<HydratedDocument<User>>,
+  ) {
+    super(userModel);
+  }
 
   async create(createUserDto: CreateUserDto) {
     const salt = await bcrypt.genSalt(10);
@@ -26,15 +30,11 @@ export class UserService {
       password: hashedPassword,
     });
 
-    await newUser.save()
+    await newUser.save();
 
     const { password, ...newUserTransformed } = newUser.toObject();
 
     return newUserTransformed;
-  }
-
-  async findAll() {
-    return await this.userModel.find();
   }
 
   async findOne(id: string) {
