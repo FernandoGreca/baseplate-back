@@ -8,16 +8,16 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from '../services/user.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOkResponse,
   ApiResponse,
 } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/features/auth/guards/auth.guard';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)

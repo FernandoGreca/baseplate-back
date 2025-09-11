@@ -1,13 +1,11 @@
-import { IsEmail, IsEmpty, IsString, Matches } from '@nestjs/class-validator';
+import { IsNotEmpty } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, Matches } from 'class-validator';
 
-export class CreateUserDto {
-  @IsString()
-  @ApiProperty({ example: 'Fernando Greca' })
-  name: string;
-
+export class SignInDto {
   @IsEmail()
   @ApiProperty({ example: 'fernandogreca@gmail.com' })
+  @IsNotEmpty({ message: 'email is required' })
   email: string;
 
   @Matches(
@@ -18,5 +16,6 @@ export class CreateUserDto {
     },
   )
   @ApiProperty({ example: 'Teste@123' })
+  @IsNotEmpty({ message: 'password is required' })
   password: string;
 }

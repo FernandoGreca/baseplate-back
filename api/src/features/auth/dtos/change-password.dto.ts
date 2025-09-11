@@ -22,13 +22,13 @@ export class MatchPasswords implements ValidatorConstraintInterface {
 }
 
 export class ChangePasswordDto {
-  @ApiProperty({ example: 'user@example.com' })
+  @ApiProperty({ example: 'fernandogreca@gmail.com' })
   @IsEmail({}, { message: 'Invalid email address' })
-  @IsNotEmpty({ message: 'Email is required' })
+  @IsNotEmpty({ message: 'email is required' })
   email: string;
 
   @ApiProperty({ example: 'Teste@123' })
-  @IsNotEmpty({ message: 'Password is required' })
+  @IsNotEmpty({ message: 'password is required' })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     {
@@ -39,7 +39,7 @@ export class ChangePasswordDto {
   password: string;
 
   @ApiProperty({ example: 'Teste@123' })
-  @IsNotEmpty({ message: 'Password confirmation is required' })
+  @IsNotEmpty({ message: 'password confirmation is required' })
   @Validate(MatchPasswords)
   password_again: string;
 }

@@ -3,13 +3,13 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './entities/user.entity';
+import { User } from '../entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
+import { ChangePasswordDto } from 'src/features/auth/dtos/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -50,10 +50,7 @@ export class UserService {
   }
 
   async changePassword(changePasswordDto: ChangePasswordDto) {
-    const {
-      email,
-      password,
-    } = changePasswordDto;
+    const { email, password } = changePasswordDto;
 
     const user = await this.findByEmail(email);
     if (!user) throw new NotFoundException('User not found');
