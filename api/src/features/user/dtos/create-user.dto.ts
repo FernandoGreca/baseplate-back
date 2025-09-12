@@ -9,9 +9,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
   @IsString()
-  @ApiProperty({ example: 'Fernando Greca' })
+  @ApiProperty({ example: 'Fernando' })
   @IsNotEmpty({ message: 'name is required' })
-  name: string;
+  first_name: string;
+
+  @IsString()
+  @ApiProperty({ example: 'Greca' })
+  last_name: string;
 
   @IsEmail()
   @ApiProperty({ example: 'fernandogreca@gmail.com' })

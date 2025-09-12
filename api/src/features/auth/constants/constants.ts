@@ -1,4 +1,4 @@
 
 export const jwtConstants = {
-  secret: 'baseplatejwtsecret',
+  secret: process.env.JWT_SECRET,
 };

@@ -21,7 +21,7 @@ export function ApiQueryList() {
       name: 'query',
       type: String,
       required: false,
-      example: 'name=Fernando&email=abc@xyz.com',
+      example: 'first_name=Fernando&email=abc@xyz.com',
     },
     {
       name: 'dont_count',

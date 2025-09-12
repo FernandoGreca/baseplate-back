@@ -15,17 +15,9 @@ export class BaseService<T extends Document> {
   constructor(protected readonly model: Model<T>) {}
 
   async findAll(options: FindAllOptions = {}) {
-    const {
-      limit = 10,
-      offset = 0,
-      fields,
-      sort,
-      dont_count,
-      query,
-    } = options;
+    const { limit = 10, offset = 0, fields, sort, dont_count, query } = options;
 
     let filter: any = {};
-
 
     // Filtro específico via query string
     if (query) {
