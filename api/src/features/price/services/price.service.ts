@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -29,7 +30,7 @@ export class PriceService extends BaseService<HydratedDocument<Price>> {
     }
 
     if (product.price)
-      throw new BadRequestException({
+      throw new ConflictException({
         message: 'A price already exists for this product',
         existingPriceId: product.price,
       });
@@ -103,13 +104,5 @@ export class PriceService extends BaseService<HydratedDocument<Price>> {
         } required when on_promotion is true`,
       );
     }
-  }
-
-  private extractPriceId(
-    price?: Types.ObjectId | { _id?: Types.ObjectId } | null,
-  ) {
-    if (!price) return undefined;
-    if (price instanceof Types.ObjectId) return price.toString();
-    return price._id?.toString();
   }
 }
