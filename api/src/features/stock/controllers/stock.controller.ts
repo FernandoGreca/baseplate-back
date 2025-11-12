@@ -10,7 +10,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
 import { CreateStockDto } from '../dtos/create-stock.dto';
@@ -20,6 +20,7 @@ import { StockService } from '../services/stock.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
+@ApiTags('stock')
 @Controller('stock')
 export class StockController {
   constructor(private readonly stockService: StockService) {}

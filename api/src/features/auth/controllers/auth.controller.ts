@@ -11,11 +11,12 @@ import {
 import { AuthGuard } from '../guards/auth.guard';
 import { AuthService } from '../services/auth.service';
 import { SignInDto } from '../dtos/sign-in.dto';
-import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/features/user/dtos/create-user.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { UserResponse } from 'src/features/user/dtos/response-user.dto';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

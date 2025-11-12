@@ -4,15 +4,17 @@ import {
   Delete,
   Get,
   Param,
-  ParseBoolPipe,
-  ParseIntPipe,
-  Patch,
   Post,
   Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
 import { CreateUserDto } from '../dtos/create-user.dto';
@@ -22,6 +24,7 @@ import { UserService } from '../services/user.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

@@ -10,7 +10,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
 import { CreatePriceDto } from '../dtos/create-price.dto';
@@ -20,6 +20,7 @@ import { PriceService } from '../services/price.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
+@ApiTags('price')
 @Controller('price')
 export class PriceController {
   constructor(private readonly priceService: PriceService) {}
