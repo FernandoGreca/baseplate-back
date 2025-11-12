@@ -7,11 +7,13 @@ import {
   IsOptional,
   IsString,
   Min,
+  Validate,
   ValidateIf,
   ValidateNested,
 } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { PromotionDateRangeValidator } from '../../../common/validators/promotion-date-range.validator';
 
 export class ProductPriceDto {
   @Type(() => Number)
@@ -41,6 +43,7 @@ export class ProductPriceDto {
   @ValidateIf((o: ProductPriceDto) => o.on_promotion === true)
   @IsDateString()
   @IsNotEmpty()
+  @Validate(PromotionDateRangeValidator)
   @ApiProperty({
     example: '2025-11-20T23:59:59.000Z',
     required: false,
