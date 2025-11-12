@@ -5,12 +5,20 @@ import { UserModule } from './features/user/user.module';
 import { ProductModule } from './features/product/product.module';
 import { PriceModule } from './features/price/price.module';
 import { StockModule } from './features/stock/stock.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/baseplate'),
-    ConfigModule.forRoot({ envFilePath: '../../api/.env' }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>('MONGODB_URI', 'mongodb://localhost/baseplate'),
+      }),
+    }),
     UserModule,
     ProductModule,
     PriceModule,
