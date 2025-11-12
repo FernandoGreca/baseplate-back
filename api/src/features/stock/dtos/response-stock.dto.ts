@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserResponse {
+export class StockResponse {
   @ApiProperty()
-  user_id: string;
+  stock_id: string;
 
   @ApiProperty()
-  first_name: string;
+  product_id: string;
 
   @ApiProperty()
-  last_name: string;
+  quantity: number;
 
-  @ApiProperty()
-  email: string;
+  @ApiProperty({ required: false })
+  warehouse_location?: string;
 
   @ApiProperty()
   created_at: Date;

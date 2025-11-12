@@ -4,8 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseBoolPipe,
-  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -15,28 +13,28 @@ import {
 import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UserResponse } from '../dtos/response-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UserService } from '../services/user.service';
+import { CreatePriceDto } from '../dtos/create-price.dto';
+import { UpdatePriceDto } from '../dtos/update-price.dto';
+import { PriceResponse } from '../dtos/response-price.dto';
+import { PriceService } from '../services/price.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
-@Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('price')
+export class PriceController {
+  constructor(private readonly priceService: PriceService) {}
 
   @Post()
-  @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: UserResponse })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @ApiBody({ type: CreatePriceDto })
+  @ApiOkResponse({ type: PriceResponse })
+  create(@Body() createPriceDto: CreatePriceDto) {
+    return this.priceService.create(createPriceDto);
   }
 
   @Get()
   @ApiOkResponse({
-    description: 'Users list',
-    type: UserResponse,
+    description: 'Prices list',
+    type: PriceResponse,
     isArray: true,
   })
   @ApiQueryList()
@@ -48,7 +46,7 @@ export class UserController {
     @Query('query') query?: string,
     @Query('dont_count') dont_count?: boolean,
   ) {
-    return this.userService.findAll({
+    return this.priceService.findAll({
       limit: limit ? parseInt(limit, 10) : 10,
       offset: offset ? parseInt(offset, 10) : 0,
       fields,
@@ -60,21 +58,21 @@ export class UserController {
 
   @Get(':id')
   @ApiOkResponse({
-    description: 'User',
-    type: UserResponse,
+    description: 'Price',
+    type: PriceResponse,
   })
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+    return this.priceService.findOne(id);
   }
 
   @Put(':id')
-  @ApiBody({ type: UpdateUserDto })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  @ApiBody({ type: UpdatePriceDto })
+  update(@Param('id') id: string, @Body() updatePriceDto: UpdatePriceDto) {
+    return this.priceService.update(id, updatePriceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+    return this.priceService.remove(id);
   }
 }

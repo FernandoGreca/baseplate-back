@@ -4,8 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseBoolPipe,
-  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -15,28 +13,28 @@ import {
 import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import { ApiQueryList } from 'src/decorators/query-list.decorator';
 import { AuthGuard } from 'src/features/auth/guards/auth.guard';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UserResponse } from '../dtos/response-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UserService } from '../services/user.service';
+import { CreateProductDto } from '../dtos/create-product.dto';
+import { ProductResponse } from '../dtos/response-product.dto';
+import { UpdateProductDto } from '../dtos/update-product.dto';
+import { ProductService } from '../services/product.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
-@Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('product')
+export class ProductController {
+  constructor(private readonly productService: ProductService) {}
 
   @Post()
-  @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: UserResponse })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @ApiBody({ type: CreateProductDto })
+  @ApiOkResponse({ type: ProductResponse })
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productService.create(createProductDto);
   }
 
   @Get()
   @ApiOkResponse({
-    description: 'Users list',
-    type: UserResponse,
+    description: 'Products list',
+    type: ProductResponse,
     isArray: true,
   })
   @ApiQueryList()
@@ -48,7 +46,7 @@ export class UserController {
     @Query('query') query?: string,
     @Query('dont_count') dont_count?: boolean,
   ) {
-    return this.userService.findAll({
+    return this.productService.findAll({
       limit: limit ? parseInt(limit, 10) : 10,
       offset: offset ? parseInt(offset, 10) : 0,
       fields,
@@ -60,21 +58,21 @@ export class UserController {
 
   @Get(':id')
   @ApiOkResponse({
-    description: 'User',
-    type: UserResponse,
+    description: 'Product',
+    type: ProductResponse,
   })
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+    return this.productService.findOne(id);
   }
 
   @Put(':id')
-  @ApiBody({ type: UpdateUserDto })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  @ApiBody({ type: UpdateProductDto })
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productService.update(id, updateProductDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+    return this.productService.remove(id);
   }
 }
