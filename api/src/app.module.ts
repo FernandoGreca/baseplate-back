@@ -6,6 +6,7 @@ import { ProductModule } from './features/product/product.module';
 import { PriceModule } from './features/price/price.module';
 import { StockModule } from './features/stock/stock.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HealthModule } from './features/health/health.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ProductModule,
     PriceModule,
     StockModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [],
