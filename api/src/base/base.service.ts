@@ -1,4 +1,3 @@
-// base.service.ts
 import { Model, Document } from 'mongoose';
 import qs from 'query-string';
 
